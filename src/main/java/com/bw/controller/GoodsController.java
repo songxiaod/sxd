@@ -49,7 +49,7 @@ public class GoodsController {
 		modelAndView.setViewName("list");
 		
 		modelAndView.getModelMap().addAttribute("page", page);
-		
+		System.out.println();
 		return modelAndView;
 	}
 	
