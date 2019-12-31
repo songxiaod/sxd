@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bw.mapper.GoodsDao">
+
+		<select id="show" resultType="com.bw.entity.Goods">
+			SELECT g.*,b.bname,k.kname 
+			from tb_goods g,tb_brand b,tb_goodskind k
+			where g.bid=b.bid and g.kid=k.kid and g.status=0
+			<if test="id!=null and id>0">
+				and g.gid = #{id}
+			</if>
+		</select>
+		
+		<select id="findAllGoods" resultType="com.bw.entity.Goods">
+			SELECT g.*,b.bname,k.kname 
+			from tb_goods g,tb_brand b,tb_goodskind k
+			where g.bid=b.bid and g.kid=k.kid and g.status=0
+			<if test="name!=null and name!=''">
+				and g.gname like concat('%',#{name},'%')
+			</if>
+		</select>
+		
+		<select id="findBrand" resultType="com.bw.entity.Brand">
+				select * from tb_brand
+		</select>
+		
+		<select id="findkinds" resultType="com.bw.entity.Kinds">
+				select * from tb_goodskind
+		</select>
+		
+		<insert id="addGoods">
+				insert into tb_goods values (0,#{gname},#{gnames},#{size},#{money},#{num},#{inss},#{image},#{bid},#{kid},0)
+		</insert>
+		
+		<update id="updateGoods">
+				update tb_goods set gname=#{gname},gnames=#{gnames},size=#{size},money=#{money},num=#{num},inss=#{inss},image=#{image},bid=#{bid},kid=#{kid},status=#{status}
+				<where>
+						gid = #{gid}
+				</where>
+		</update>
+		
+		<update id="deletesGoods">
+				update tb_goods set status=1 where gid in (${ids})
+		</update>
+</mapper>
